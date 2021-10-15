@@ -13,24 +13,11 @@
 </head>
 
 <body>
-    <x-app-layout>
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-        </x-slot>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="container mt-5 mb-5" style="max-width: 700px">
-                        <h2 class="h2 text-center mb-5 border-bottom pb-3">Agenda</h2>
-                        <div id='full_calendar_events'></div>
-                    </div>  
-                </div>
-            </div>
-        </div>
-    </x-app-layout>
+    <div class="container mt-5" style="max-width: 700px">
+        <h2 class="h2 text-center mb-5 border-bottom pb-3">Laravel FullCalender CRUD Events Example</h2>
+        <div id='full_calendar_events'></div>
+    </div>
 
     {{-- Scripts --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
