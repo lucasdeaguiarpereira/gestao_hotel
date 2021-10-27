@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTelefoneTableUsers extends Migration
+class CreatePrecosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddTelefoneTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telefone')
-            ->after('tipo_usuario');
+        Schema::create('precos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_agendamento');
+            $table->decimal('valor');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +28,6 @@ class AddTelefoneTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('tipo_usuario', 'telefone');
-        });
+        Schema::dropIfExists('precos');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTelefoneTableUsers extends Migration
+class CreatePacotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddTelefoneTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telefone')
-            ->after('tipo_usuario');
+        Schema::create('pacotes', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('preco_padrao');
+            $table->bigInteger('qtd_dias');
+            $table->string('desc_pacote');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ class AddTelefoneTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('tipo_usuario', 'telefone');
-        });
+        Schema::dropIfExists('pacotes');
     }
 }

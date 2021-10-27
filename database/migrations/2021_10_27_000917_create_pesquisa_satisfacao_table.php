@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTelefoneTableUsers extends Migration
+class CreatePesquisaSatisfacaoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddTelefoneTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telefone')
-            ->after('tipo_usuario');
+        Schema::create('pesquisa_satisfacao', function (Blueprint $table) {
+            $table->id();
+            $table->json('conteudo');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ class AddTelefoneTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('tipo_usuario', 'telefone');
-        });
+        Schema::dropIfExists('pesquisa_satisfacao');
     }
 }

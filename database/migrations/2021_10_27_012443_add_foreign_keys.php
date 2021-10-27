@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTelefoneTableUsers extends Migration
+class AddForeignKeys extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddTelefoneTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('telefone')
-            ->after('tipo_usuario');
+        //
+        Schema::table('precos', function (Blueprint $table) {        
+            $table->foreign('id_agendamento')->references('id')->on('agendamentos');
         });
     }
 
@@ -26,8 +26,6 @@ class AddTelefoneTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('tipo_usuario', 'telefone');
-        });
+        //
     }
 }
