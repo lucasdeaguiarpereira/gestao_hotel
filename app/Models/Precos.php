@@ -17,6 +17,7 @@ class Precos extends Model
     protected $fillable = [
         'id_agendamento',
         'valor',
+        'updated_at',
     ];
 
      /**

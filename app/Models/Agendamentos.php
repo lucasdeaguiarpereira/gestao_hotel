@@ -16,12 +16,14 @@ class Agendamentos extends Model
     protected $fillable = [
         'data_inicio',
         'data_fim',
-        'visitante',
-        'responsavel',
+        'id_visitante',
+        'id_responsavel',
         'qtd_pessoas',
         'id_pacote',
+        'id_pesquisa_satisfacao',
+        'qtd_pessoas',
         'status',
-        'pesquisa_satisfacao',
+        'descricao',
         'comentario',
     ];
 
