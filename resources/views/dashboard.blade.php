@@ -108,7 +108,16 @@
 
             var calendar = $('#full_calendar_events').fullCalendar({
                 editable: true,
-                editable: true,
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                buttonText: {
+                    today: "Hoje",
+                    month: "Mês",
+                    week: "Semana",
+                    day: "Dia"
+                },
                 displayEventTime: true,
                 eventRender: function (event, element, view) {
                     if (event.allDay === 'true') {
@@ -136,7 +145,7 @@
                     //     console.log("Nome:",event_name);
                     //     var myModal = document.getElementById('myModal');
 
-     
+    
 
                     //     // $.ajax({
                     //     //     url: SITEURL + "/calendar-crud-ajax",

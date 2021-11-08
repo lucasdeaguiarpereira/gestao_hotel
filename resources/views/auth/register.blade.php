@@ -8,10 +8,29 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-
             <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-label for="id_tipo_usuario" value="{{ __('Tipo usuário') }}" />
+                
+                <select id="id_tipo_usuario" class="block mt-1 w-full" name="id_tipo_usuario" :value="old('id_tipo_usuario')" required autofocus>
+
+                    <option value="1">
+                        Administrador
+                    </option>
+                    <option value="2" selected>
+                        Simples
+                    </option>
+
+                </select>
+            </div>
+            
+            <div>
+                <x-jet-label for="name" value="{{ __('Nome') }}" />
                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="telefone" value="{{ __('Telefone') }}" />
+                <x-jet-input id="telefone" class="block mt-1 w-full" type="text" name="telefone" :value="old('telefone')" required />
             </div>
 
             <div class="mt-4">
@@ -20,12 +39,12 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
+                <x-jet-label for="password" value="{{ __('Senha') }}" />
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-jet-label for="password_confirmation" value="{{ __('Confirme a senha') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
