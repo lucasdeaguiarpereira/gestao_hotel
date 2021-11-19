@@ -25,7 +25,7 @@
             body, html{height: 100%;}
             .nav-link{display:flex !important;}
             .principal{height: 100%;}
-            .menuSuperior{width:80%;height:10%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
+            .menuSuperior{width:80%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
             .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);}
             .menuLateralReduzido{background-color:#F0EAD2;float:left;width:5% ;height: 100%; min-height: 100%;position: fixed;}
             .menuLateral{background-color:#F0EAD2;float:left;width:20% ;height: 100%; min-height: 100%;position: fixed;}
