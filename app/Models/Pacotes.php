@@ -15,9 +15,13 @@ class Pacotes extends Model
      * @var string[]
      */
     protected $fillable = [
+        'nome_pacote',
         'preco_padrao',
         'qtd_dias',
-        'desc_pacotes',
+        'desc_pacote',
+        'data_inicio',
+        'data_fim',
+        'img',
     ];
 
      /**

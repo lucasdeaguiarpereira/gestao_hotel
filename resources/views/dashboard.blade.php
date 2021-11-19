@@ -26,6 +26,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @if (Auth::user()->id_tipo_usuario == 1)
                 <div class="row">
                     <div class="col-12 mb-3"> 
                         <label for="visitante" class="form-label">Cliente Reponsável</label>
@@ -47,6 +48,7 @@
                         </select>
                     </div>
                 </div>
+                @endif
                 <div class="row">
                     <div class="col-12 mb-3"> 
                         <label for="quantidadePessoas" class="form-label">Quantidade de Visitantes</label>
@@ -63,6 +65,14 @@
                         </select>
                     </div>
                 </div>
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="preco" class="form-label">Preço</label>
+                        <input type="text" class="rounded-3 form-control" name="preco" id="preco" placeholder="10">
+                    </div>
+                </div>
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -205,6 +215,7 @@
         console.log($("#responsavel").val());
         console.log($("#visitante").val());
         console.log($("#quantidadePessoas").val());
+        console.log($("#preco").val());
 
         $('#myModal').modal('hide');
 
