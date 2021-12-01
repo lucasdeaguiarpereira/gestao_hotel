@@ -98,14 +98,14 @@
         </button>
         <div style="align-self:center !important;">
             <a href="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src='{{asset("assets\logo.png")}}'>
+                <img style="width:100px;" src='{{asset("assets\logo.png")}}'>
             </a>
         </div>
         
         
         <ul class="nav nav-pills flex-column mb-auto">
             @if (Auth::user()->id_tipo_usuario == 2)
-            <li class="nav-item">
+            <li class="nav-item mt-3">
                 <a href="/dashboard" class="colorTextLateral nav-link link-dark" aria-current="page">                            
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-calendar-date-fill me-3 ms-3" viewBox="0 0 16 16">
                         <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zm5.402 9.746c.625 0 1.184-.484 1.184-1.18 0-.832-.527-1.23-1.16-1.23-.586 0-1.168.387-1.168 1.21 0 .817.543 1.2 1.144 1.2z"/>
@@ -133,7 +133,7 @@
             </li>
             @endif
             @if (Auth::user()->id_tipo_usuario == 1)
-            <li class="nav-item">
+            <li class="nav-item mt-3">
                 <a href="/dashboard" class="colorTextLateral nav-link link-dark" aria-current="page">                            
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-calendar-date-fill me-3 ms-3" viewBox="0 0 16 16">
                         <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zm5.402 9.746c.625 0 1.184-.484 1.184-1.18 0-.832-.527-1.23-1.16-1.23-.586 0-1.168.387-1.168 1.21 0 .817.543 1.2 1.144 1.2z"/>
