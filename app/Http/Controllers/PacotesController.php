@@ -9,7 +9,7 @@ use App\Models\Pacotes;
 class PacotesController extends Controller
 {
     public function index() {
-        return Pacotes::all();
+        return Pacotes::latest('updated_at')->get();
     }
 
     public function store(Request $request)
