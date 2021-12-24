@@ -77,6 +77,52 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="modalDetalhamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Agendamento <span id="dataInicio">15/12/2021</span> até <span id="dataFim">23/12/2021</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="visitante" class="form-label">Cliente: Teste</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="responsavel" class="form-label">Caseiro Reponsável: Lucas de Aguiar</label>
+                    </div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="quantidadePessoas" class="form-label">Quantidade de Visitantes: 3</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="pacote" class="form-label">Pacote: Pacote de Natal</label>
+                    </div>
+                </div>
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="preco" class="form-label">Preço: R$ 1.250,00</label>
+                    </div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="salvarAgendamento()" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.11.2/jquery.mask.min.js"></script>
 <script type="text/javascript">
     "use strict";
@@ -164,6 +210,7 @@
                     dataFinal = $.fullCalendar.formatDate(event_end, "Y-MM-DD");
                     console.log(dataInicial);
                     console.log(dataFinal);
+                    console.log("event_end",event_end);
                     var event_start = $.fullCalendar.formatDate(event_start, "DD/MM/Y");
                     var event_end = $.fullCalendar.formatDate(event_end, "DD/MM/Y");
                     $("#dataInicio").html(event_start);
@@ -225,8 +272,10 @@
                     // });
                 },
                 eventClick: function (event) {
-                    var eventDelete = confirm("Are you sure?");
-                    if (eventDelete) {
+                    $('#modalDetalhamento').modal('show');
+
+                    // var eventDelete = confirm("Are you sure?");
+                    // if (eventDelete) {
                         // $.ajax({
                         //     type: "POST",
                         //     url: SITEURL + '/calendar-crud-ajax',
@@ -239,7 +288,7 @@
                         //         displayMessage("Event removed");
                         //     }
                         // });
-                    }
+                    // }
                 }
             });
             $("#loading").hide();
