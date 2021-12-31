@@ -22,7 +22,7 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
 
         <style type="text/css">
-            body, html{height: 100%;}
+            body, html{height: 100%;font-size:14px;}
             .nav-link{display:flex !important;}
             .principal{height: 100%;}
             .menuSuperior{width:80%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}

@@ -16,6 +16,7 @@ class Pacotes extends Model
      */
     protected $fillable = [
         'nome_pacote',
+        'valido',
         'preco_padrao',
         'qtd_dias',
         'desc_pacote',

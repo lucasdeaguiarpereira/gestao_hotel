@@ -14,6 +14,7 @@ class AgendamentosController extends Controller
     public function store(Request $request)
     {
         Agendamentos::create($request->all());
+        return Agendamentos::latest()->first();
     }
 
     public function show($id)

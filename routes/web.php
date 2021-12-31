@@ -33,4 +33,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/pacotes', function () {
     return view('pacotes');
 })->name('pacotes');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/agendamentos', function () {
+    return view('agendamentos');
+})->name('agendamentos');
+
 

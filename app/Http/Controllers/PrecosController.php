@@ -21,6 +21,11 @@ class PrecosController extends Controller
     {
         return Precos::findOrFail($id);
     }
+
+    public function getPrecoValido($idAgendamento){
+        $preco = Precos::where('valido',1)->where('id_agendamento',$idAgendamento)->get();
+        return $preco;
+    }
    
     public function update(Request $request, $id)
     {

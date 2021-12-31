@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <style type="text/css">
-        body, html{height: 100%;}
+        body, html{height: 100%;font-size:14px;}
         .principal{height: 100%;}
         .menuSuperior{width:80%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
         .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);}
@@ -67,7 +67,7 @@
             </button>
             <div style="align-self:center !important;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <img style="width:120px;" src='{{asset("assets\logo.png")}}'>
+                    <img style="width:120px;" src='{{asset("assets\logo_turquesa.png")}}'>
                 </a>
             </div>
             

@@ -82,43 +82,55 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agendamento <span id="dataInicio">15/12/2021</span> até <span id="dataFim">23/12/2021</span></h5>
+                <h5 class="modal-title" id="staticBackdropLabel"><span id="tipoAgendamentoDetalhe"></span> <span id="dataInicioDetalhe"></span> até <span id="dataFimDetalhe"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @if (Auth::user()->id_tipo_usuario == 1)
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="visitante" class="form-label">Cliente: Teste</label>
+                        <label class="form-label">Cliente: <span id="nomeClienteDetalhe"></span></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="responsavel" class="form-label">Caseiro Reponsável: Lucas de Aguiar</label>
+                        <label class="form-label">Caseiro Reponsável: <span id="nomeCaseiroDetalhe"></span></label>
                     </div>
                 </div>
                 @endif
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="quantidadePessoas" class="form-label">Quantidade de Visitantes: 3</label>
+                        <label class="form-label">Quantidade de Visitantes: <span id="qtdPessoasDetalhe"></span></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="pacote" class="form-label">Pacote: Pacote de Natal</label>
+                        <label class="form-label">Pacote: <span id="nomePacoteDetalhe"></span></label>
                     </div>
                 </div>
                 @if (Auth::user()->id_tipo_usuario == 1)
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="preco" class="form-label">Preço: R$ 1.250,00</label>
+                        <label class="form-label">Preço: R$ <span id="precoAgendamentoDetalhe"></span></label>
+                    </div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label class="form-label">Descrição: <span id="descricaoAgendamentoDetalhe"></span></label>
+                    </div>
+                </div>
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label class="form-label">Comentário: <span id="comentarioAgendamentoDetalhe"></span></label>
                     </div>
                 </div>
                 @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="salvarAgendamento()" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-primary">Editar</button>
             </div>
         </div>
     </div>
@@ -128,9 +140,14 @@
     "use strict";
     var SITEURL = "{{ url('/') }}";
     var agendamentosGlobal = "";
+    var precosGlobal = [];
+    var usuariosGlobal = "";
+    var pacotesGlobal = "";
     var idPacote = "";
     var dataInicial = "";
     var dataFinal = "";
+    var cores = ['#D9CCBA','#8EDB5C','#D9943B','#2599D9','#D64DDB','DB9C5C','4DBADB','D4BAD9'];
+    var usuarioCores = [];
 
     var formatData = function(data){
             var dataFormatada = new Date(data);
@@ -168,10 +185,78 @@
 
         var geraEventsCalendario = function(agendamentos){
             var eventos = [];
+            var nomeVisitante = "";
+            var nomeResponsavel = "";
+            var nomePacote = "";
+            var status = "";
+            var cor = "";
+            var objeto = "";
+            
             if(agendamentos.length>0){
                 console.log("entou afsda");
                 agendamentos.forEach(function(agendamento){
-                    eventos.push({start:agendamento.data_inicio.replace(" ","T"), end:agendamento.data_fim.replace(" ","T"), display:'teste'})
+                    nomeVisitante = "";
+                    nomeResponsavel = "";
+                    nomePacote = "";
+                    status = "";
+                    cor = "";
+                    objeto = "";
+
+                    usuariosGlobal.forEach(function(usuario){
+                        if(usuario.id == agendamento.id_visitante){
+                            nomeVisitante = usuario.name;
+                        }
+                    });
+
+                    usuariosGlobal.forEach(function(usuario){
+                        if(usuario.id == agendamento.id_responsavel){
+                            nomeResponsavel = usuario.name;
+                        }
+                    });
+
+                    usuarioCores.forEach(function(usuario){
+                        if(usuario.id_usuario == agendamento.id_visitante){
+                            cor = usuario.cor;
+                        }
+                    });
+
+                    pacotesGlobal.forEach(function(pacote){
+                        if(pacote.id == agendamento.id_pacote){
+                            nomePacote = pacote.nome_pacote;
+                        }
+                    });
+     
+                    if(agendamento.status == 1){
+                        status = "Pré-Agendamento";
+                    }
+                    if(agendamento.status == 2){
+                        status = "Agendamento Confirmado";
+                    }
+                    if(agendamento.status == 3){
+                        status = "Agendamento Cancelado";
+                    }
+
+                    objeto ={
+                                id:agendamento.id,
+                                id_pacote:agendamento.id_pacote,
+                                nome_pacote:nomePacote,
+                                id_pesquisa_satisfacao:agendamento.id_pesquisa_satisfacao,
+                                id_responsavel:agendamento.id_responsavel,
+                                nome_responsavel:nomeResponsavel,
+                                id_visitante:agendamento.id_visitante,
+                                nome_visitante:nomeVisitante,
+                                qtd_pessoas:agendamento.qtd_pessoas,
+                                status:agendamento.status,
+                                status_nome:status,
+                                comentario:agendamento.comentario,
+                                descricao:agendamento.descricao,
+                                data_fim:agendamento.data_fim,
+                                data_inicio:agendamento.data_inicio,
+                                created_at:agendamento.created_at,
+                                updated_at:agendamento.updated_at
+                            };
+
+                    eventos.push({start:agendamento.data_inicio.replace(" ","T"), end:agendamento.data_fim.replace(" ","T"), title:nomeVisitante+" - "+status, color: cor, dados:objeto})
                 });
             }
             console.log("eventos aqui");
@@ -194,7 +279,7 @@
                     week: "Semana",
                     day: "Dia"
                 },
-                displayEventTime: true,
+                displayEventTime: false,
                 events: eventos,
                 eventRender: function (event, element, view) {
                     if (event.allDay === 'true') {
@@ -207,6 +292,7 @@
                 selectHelper: true,
                 select: function (event_start, event_end, allDay) {
                     dataInicial = $.fullCalendar.formatDate(event_start, "Y-MM-DD");
+                    event_end.subtract(1, 'days');
                     dataFinal = $.fullCalendar.formatDate(event_end, "Y-MM-DD");
                     console.log(dataInicial);
                     console.log(dataFinal);
@@ -272,6 +358,25 @@
                     // });
                 },
                 eventClick: function (event) {
+
+                    precosGlobal.forEach(function(preco){
+                        if(preco.id_agendamento == event.dados.id){
+                            event.dados.preco = preco.valor;
+                        }
+                    });
+                    console.log(event.dados);
+
+                    $('#tipoAgendamentoDetalhe').html(event.dados.status_nome);
+                    $('#dataInicioDetalhe').html(formatData(event.dados.data_inicio).split(" ")[0]);
+                    $('#dataFimDetalhe').html(formatData(event.dados.data_fim).split(" ")[0]);
+                    $('#nomeClienteDetalhe').html(event.dados.nome_visitante);
+                    $('#nomeCaseiroDetalhe').html(event.dados.nome_responsavel);
+                    $('#qtdPessoasDetalhe').html(event.dados.qtd_pessoas);
+                    $('#nomePacoteDetalhe').html((event.dados.nome_pacote == "" ? "Não informado." : event.dados.nome_pacote));
+                    $('#precoAgendamentoDetalhe').html(new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(event.dados.preco));
+                    $('#descricaoAgendamentoDetalhe').html((event.dados.descricao == 'null' ? event.dados.descricao : "Não informado."));
+                    $('#comentarioAgendamentoDetalhe').html((event.dados.comentario == 'null' ? event.dados.comentario : "Não informado."));
+
                     $('#modalDetalhamento').modal('show');
 
                     // var eventDelete = confirm("Are you sure?");
@@ -300,15 +405,17 @@
         var gerarOptionsUsuarios = function(dados){
             var htmlVisitante = '';
             var htmlResponsavel = '';
-           
+            var i =0;
             dados.forEach(function(usuario){
                 if(usuario.id_tipo_usuario == 1){
                     htmlResponsavel += '<option value="'+usuario.id+'" selected>'+usuario.name+'</option>';
                 }else if(usuario.id_tipo_usuario == 2){
+                    usuarioCores.push({id_usuario:usuario.id,cor:cores[i],nome:usuario.name});
                     htmlVisitante += '<option value="'+usuario.id+'" selected>'+usuario.name+'</option>';
                 } 
+                i++;
             });
-
+            
             $("#responsavel").html(htmlResponsavel);
             $("#visitante").html(htmlVisitante);
         }
@@ -320,6 +427,7 @@
             $.ajax({headers: {},method: "GET", url: url})
             .done(function (dados) {
                 console.log(dados);
+                usuariosGlobal = dados;
                 gerarOptionsUsuarios(dados);
             })
             .fail(function () {
@@ -344,6 +452,7 @@
             $.ajax({headers: {},method: "GET", url: url})
             .done(function (dados) {
                 console.log(dados);
+                pacotesGlobal = dados;
                 gerarOptionsPacotes(dados);
             })
             .fail(function () {
@@ -352,27 +461,53 @@
             .always(function() {});
         }
 
+       
+
         var gerarDados = function(){
             var url = SITEURL+"/api/agendamentos";
+            var urlPreco = "";
             
             // console.log(url);
             $.ajax({headers: {},method: "GET", url: url})
             .done(function (dados) {
                 $("#loading").show();
                 console.log(dados);
-                gerarUsuarios();
-                gerarPacotes();
+                dados.forEach(function(agendamento){
+                    setTimeout(() => {
+                        urlPreco = "";
+                        urlPreco += SITEURL+"/api/precoValido/"+agendamento.id
+                        $.ajax({headers: {},method: "GET", url: urlPreco})
+                        .done(function (preco) {
+                            agendamento.valor = preco;
+                            if(preco[0] !== undefined){
+                                precosGlobal.push(preco[0]);
+                            }
+                        })
+                        .fail(function () {
+                            //console.log("Requisição com falha. ");
+                        })
+                        .always(function() {});
+                    }, 500);
+                });
+                agendamentosGlobal = dados;
                 geraCalendario(dados);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
             })
             .always(function() {});
+
+            setTimeout(() => {
+                
+            }, 4000);
+            
         }
 
         return {
             //main function to initiate the module
             init: function () {
+                gerarUsuarios();
+                gerarPacotes();
                 gerarDados();
             }
         };
@@ -403,7 +538,8 @@
 
     function salvarAgendamento(){
         console.log("salvarAgendamento");
-        var url= SITEURL+"/api/agendamentos";
+        var urlAgendamento= SITEURL+"/api/agendamentos";
+        var urlPreco= SITEURL+"/api/precos";
         // console.log(url);
         var visitante = $("#visitante").val();
         var responsavel = $("#responsavel").val();
@@ -411,6 +547,7 @@
         var pacote = $("#pacote").val();
         var preco = $("#preco").val();
         var dadosAgendamento = {};
+        var dadosPreco = {};
 
         
         console.log(visitante);
@@ -448,30 +585,34 @@
                                 };
         }
 
-        $.ajax({headers: {}, data:dadosAgendamento, method: "POST", url: url})
+        $.ajax({headers: {}, data:dadosAgendamento, method: "POST", url: urlAgendamento})
         .done(function (dados) {
-            console.log(dados);
-        })
+            console.log("salvando agendamento");
+            console.log(dados.id);
+            dadosPreco =  {
+                        "id_agendamento": dados.id,
+                        "valor": preco.replaceAll(".","").replace(",","."),
+                        "valido": 1
+                    };
+
+         
+            $.ajax({headers: {}, data:dadosPreco, method: "POST", url: urlPreco})
+            .done(function (dados) {
+                console.log(dados);
+            })
+            .fail(function () {
+                //console.log("Requisição com falha. ");
+            })
+            .always(function() {});
+
+            })
         .fail(function () {
             //console.log("Requisição com falha. ");
         })
         .always(function() {});
 
 
-        // dadosPreco =  {
-        //                     "id_agendamento": 1,
-        //                     "valor": 2250.75
-        //               };
-
-        // $.ajax({headers: {}, data:dadosAgendamento, method: "POST", url: url})
-        // .done(function (dados) {
-        //     console.log(dados);
-        // })
-        // .fail(function () {
-        //     //console.log("Requisição com falha. ");
-        // })
-        // .always(function() {});
-
+     
       
         alert("Agendamento criado com sucesso!");
         $('#modalAgendamento').modal('hide');
