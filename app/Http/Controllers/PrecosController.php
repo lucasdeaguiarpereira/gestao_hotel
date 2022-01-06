@@ -9,7 +9,7 @@ use App\Models\Precos;
 class PrecosController extends Controller
 {
     public function index() {
-        return Precos::all();
+        return Precos::where('valido',1)->get();
     }
 
     public function store(Request $request)

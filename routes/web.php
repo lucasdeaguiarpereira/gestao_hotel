@@ -37,4 +37,16 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/agendamentos', function (
     return view('agendamentos');
 })->name('agendamentos');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/usuarios', function () {
+    return view('usuarios');
+})->name('usuarios');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/relatorios', function () {
+    return view('relatorios');
+})->name('relatorios');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/areadeemails', function () {
+    return view('areadeemails');
+})->name('areadeemails');
+
 

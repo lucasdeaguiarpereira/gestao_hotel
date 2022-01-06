@@ -38,7 +38,46 @@
     var agendamentosGlobal = "";
     var pacotesGlobal = "";
     var usuariosGlobal = "";
-    var precosGlobal = [];
+    var precosGlobal = "";
+
+    function confirmarAgendamento(idAgendamento){
+        var url = SITEURL+"/api/agendamentos/"+idAgendamento;
+            
+            // console.log(url);
+        $.ajax({headers: {},data:{"status":2},method: "PUT", url: url})
+        .done(function () {
+            var confirmacao = confirm("Orçamento Aprovado com sucesso!");
+            if(confirmacao){
+                $("#agendamentosList").hide();
+                $("#loading").show();
+                classAgendamentos.init();
+            }
+        })
+        .fail(function () {
+            //console.log("Requisição com falha. ");
+        })
+        .always(function() {});
+    }
+
+    function cancelarAgendamento(idAgendamento){
+        var url = SITEURL+"/api/agendamentos/"+idAgendamento;
+            
+            // console.log(url);
+        $.ajax({headers: {},data:{"status":3},method: "PUT", url: url})
+        .done(function () {
+            var confirmacao = confirm("Orçamento Cancelado com sucesso!");
+            if(confirmacao){
+                $("#agendamentosList").hide();
+                $("#loading").show();
+                classAgendamentos.init();
+            }
+        })
+        .fail(function () {
+            //console.log("Requisição com falha. ");
+        })
+        .always(function() {});
+    }
+
 
     var classAgendamentos = function () {
 
@@ -76,6 +115,21 @@
             })
             .always(function() {});
         }
+
+        var gerarPrecos = function(){
+            var url = SITEURL+"/api/precos";
+            
+            // console.log(url);
+            $.ajax({headers: {},method: "GET", url: url})
+            .done(function (dados) {
+                console.log(dados);
+                precosGlobal = dados;
+            })
+            .fail(function () {
+                //console.log("Requisição com falha. ");
+            })
+            .always(function() {});
+        }
         
         var geraAgendamentosList = function (dados){
             agendamentosGlobal = dados;
@@ -83,12 +137,26 @@
             var contador = 1;
             var nomePacote = "";
             var nomeCliente = "";
+            var telefoneCliente ="";
+            var precoValido = "";
             var qtdDias = "";
             var statusNome = "";
+            var botoes = "";
+            var fundo = "white";
 
             // console.log(dados.length);
             if(dados.length>0){
                 dados.forEach(function(agendamento){
+
+                    nomePacote = "";
+                    nomeCliente = "";
+                    telefoneCliente ="";
+                    precoValido = "";
+                    qtdDias = "";
+                    statusNome = "";
+                    botoes = "";
+                    fundo = "white";
+
                     pacotesGlobal.forEach(function(pacote){
                         if(pacote.id == agendamento.id_pacote){
                             nomePacote = pacote.nome_pacote;
@@ -99,6 +167,13 @@
                     usuariosGlobal.forEach(function(usuario){
                         if(usuario.id == agendamento.id_visitante){
                             nomeCliente = usuario.name;
+                            telefoneCliente = usuario.telefone;
+                        }
+                    });
+
+                    precosGlobal.forEach(function(preco){
+                        if(preco.id_agendamento == agendamento.id){
+                            precoValido = preco.valor;
                         }
                     });
                     console.log(nomeCliente);
@@ -106,15 +181,30 @@
 
                     if(agendamento.status == 1){
                         statusNome = 'Aguardando aprovação';
+                        fundo = "#ebedd0";
+                        botoes =   `<button type="button" onclick="confirmarAgendamento(`+agendamento.id+`)" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
+                                        Confirmar agendamento
+                                    </button>
+                                    <button type="button" onclick="cancelarAgendamento(`+agendamento.id+`)" style="color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#f75959;display:inline-flex;" class="btn rounded-pill">
+                                        Cancelar agendamento
+                                    </button>`;
                     }else if(agendamento.status == 2){
                         statusNome = 'Aprovado';
+                        fundo = "#d0efdd";
+                        botoes =   `<button type="button" onclick="cancelarAgendamento(`+agendamento.id+`)" style="color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#f75959;display:inline-flex;" class="btn rounded-pill">
+                                        Cancelar agendamento
+                                    </button>`;
                     }else if(agendamento.status == 3){
                         statusNome = 'Cancelado';
+                        fundo = "#edd0d0";
+                        botoes =   `<button type="button" onclick="confirmarAgendamento(`+agendamento.id+`)" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
+                                        Confirmar agendamento
+                                    </button>`;
                     }
                     html += `<div class="row mt-3">
                                 <div class="row justify-content-md-center">
                                     <div class="col-12">
-                                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:20px;">
+                                        <div class="overflow-hidden shadow-xl sm:rounded-lg" style="background-color:`+fundo+`;border-radius:20px;">
                                             <div class="container row mt-5 mb-5 ms-3 me-3">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -166,19 +256,17 @@
                                                                 <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                                                             </svg>
-                                                            Status do agendamento<br>`+statusNome+`
+                                                            Status do agendamento:<br>`+statusNome+`
                                                         </div>
                                                     </div>
                                                     <div class="col-4" style="text-align:right;">
                                                         <h4 style="font-weight:bold;color:#71BF94;">
-                                                            R$ `+agendamento.valor.valor+`
+                                                            R$ `+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(precoValido)+`
                                                         </h4>
-                                                        <button type="button" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
+                                                        <a href="https://api.whatsapp.com/send?phone=055`+telefoneCliente+`&text=Gostaria de entrar em contato para ..." target="_blank" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
                                                             Entrar em contato
-                                                        </button>
-                                                        <button type="button" style="color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
-                                                            Confirmar agendamento
-                                                        </button>
+                                                        </a>
+                                                        `+botoes+`
                                                     </div>
                                                 </div>
                                             </div>  
@@ -206,26 +294,7 @@
             $.ajax({headers: {},method: "GET", url: url})
             .done(function (dados) {
                 $("#loading").show();
-                dados.forEach(function(agendamento){
-                    setTimeout(() => {
-                        urlPreco = "";
-                        urlPreco += SITEURL+"/api/precoValido/"+agendamento.id
-                        $.ajax({headers: {},method: "GET", url: urlPreco})
-                        .done(function (preco) {
-                            agendamento.valor = preco[0];
-                            if(preco[0] !== undefined){
-                                precosGlobal.push(preco[0]);
-                            }
-                        })
-                        .fail(function () {
-                            //console.log("Requisição com falha. ");
-                        })
-                        .always(function() {});
-                    }, 500);
-                });
-                setTimeout(() => {
-                    geraAgendamentosList(dados);
-                },4000);
+                geraAgendamentosList(dados);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
@@ -237,6 +306,7 @@
             //main function to initiate the module
             init: function () {
                 gerarUsuarios();
+                gerarPrecos();
                 gerarPacotes();
                 gerarDados();
             }

@@ -8,7 +8,7 @@ use App\Models\Agendamentos;
 class AgendamentosController extends Controller
 {
     public function index() {
-        return Agendamentos::all();
+        return Agendamentos::orderBydesc("updated_at")->get();
     }
 
     public function store(Request $request)

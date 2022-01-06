@@ -8,7 +8,7 @@
     </div>
     <div class="ms-5 me-5" style="margin-top:-10%;margin-bottom:5%;">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:20px;">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
                 <div class="container mt-5 mb-5" style="max-width: 700px">
                     <div id='loading'>
                         Carregando ...
@@ -77,6 +77,70 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAgendamentoEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Pré-Agendamento <span id="dataInicioEdit"></span> até <span id="dataFimEdit"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row" style="display:none;">
+                    <div class="col-12 mb-3"> 
+                        <label for="idAgendamentoEdit" class="form-label">Id</label>
+                        <input type="number" min="0" class="rounded-3 form-control" name="idAgendamentoEdit" id="idAgendamentoEdit">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="visitanteedit" class="form-label">Cliente</label>
+                        <select id="visitanteEdit" name="visitanteEdit" class="form-select">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="responsavelEdit" class="form-label">Caseiro Reponsável</label>
+                        <select id="responsavelEdit" name="responsavelEdit" class="form-select">
+                        </select>
+                    </div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="quantidadePessoasEdit" class="form-label">Quantidade de Visitantes</label>
+                        <input type="number" min="0" class="rounded-3 form-control" name="quantidadePessoasEdit" id="quantidadePessoasEdit">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="pacoteEdit" class="form-label">Pacote</label>
+                        <select id="pacoteEdit" name="pacoteEdit" class="form-select">
+                            <option value="0" selected>Pacote</option>
+                            <option value="1">Fim de Ano - 25/12 até 31/12</option>
+                            <option value="2">Finados - 01/11 até 03/11</option>
+                        </select>
+                    </div>
+                </div>
+                @if (Auth::user()->id_tipo_usuario == 1)
+                <div class="row">
+                    <div class="col-12 mb-3"> 
+                        <label for="precoEdit" class="form-label">Preço</label>
+                        <input type="text" class="rounded-3 form-control" name="precoEdit" id="precoEdit">
+                    </div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="editarAgendamento()" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="modalDetalhamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -130,7 +194,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Editar</button>
+                <button type="button" id="editarDetalhe" onclick="editarAgendamentoModal()" class="btn btn-primary">Editar</button>
             </div>
         </div>
     </div>
@@ -146,12 +210,17 @@
     var idPacote = "";
     var dataInicial = "";
     var dataFinal = "";
-    var cores = ['#D9CCBA','#8EDB5C','#D9943B','#2599D9','#D64DDB','DB9C5C','4DBADB','D4BAD9'];
+    var cores = ['#D9CCBA','#8EDB5C','#D9943B','#2599D9','#D64DDB','#DB9C5C','#4DBADB','#D4BAD9','#0aad33'];
     var usuarioCores = [];
 
     var formatData = function(data){
             var dataFormatada = new Date(data);
             return(dataFormatada.toLocaleString());
+    }
+
+    function editarAgendamentoModal(){
+        $('#modalDetalhamento').modal('hide');
+        $('#modalAgendamentoEdit').modal('show');
     }
 
     var classAgendamentos = function () {
@@ -376,7 +445,14 @@
                     $('#precoAgendamentoDetalhe').html(new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(event.dados.preco));
                     $('#descricaoAgendamentoDetalhe').html((event.dados.descricao == 'null' ? event.dados.descricao : "Não informado."));
                     $('#comentarioAgendamentoDetalhe').html((event.dados.comentario == 'null' ? event.dados.comentario : "Não informado."));
-
+                    
+                    $("#idAgendamentoEdit").val(event.dados.id);
+                    $("#visitanteEdit").val(event.dados.id_visitante);
+                    $("#responsavelEdit").val(event.dados.id_responsavel);
+                    $("#quantidadePessoasEdit").val(event.dados.qtd_pessoas);
+                    $("#pacoteEdit").val(event.dados.id_pacote);
+                    $("#precoEdit").val(new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(event.dados.preco));
+                  
                     $('#modalDetalhamento').modal('show');
 
                     // var eventDelete = confirm("Are you sure?");
@@ -418,6 +494,8 @@
             
             $("#responsavel").html(htmlResponsavel);
             $("#visitante").html(htmlVisitante);
+            $("#responsavelEdit").html(htmlResponsavel);
+            $("#visitanteEdit").html(htmlVisitante);
         }
 
         var gerarUsuarios = function(){
@@ -443,6 +521,7 @@
                 html += '<option value="'+pacote.id+'" selected>'+pacote.nome_pacote+'</option>';  
             });
             $("#pacote").html(html);
+            $("#pacoteEdit").html(html);
         }
 
         var gerarPacotes = function(){
@@ -525,11 +604,18 @@
         });
 
         $("#preco").mask("#.##0,00", {reverse: true});
+        $("#precoEdit").mask("#.##0,00", {reverse: true});
     });
 
     var modalAgendamento = document.getElementById('modalAgendamento');
     
     modalAgendamento.addEventListener('shown.bs.modal', function () {
+    
+    });
+
+    var modalAgendamentoEdit = document.getElementById('modalAgendamentoEdit');
+    
+    modalAgendamentoEdit.addEventListener('shown.bs.modal', function () {
     
     });
     function displayMessage(message) {
@@ -623,6 +709,96 @@
         $("#dataInicio").html("");
         $("#dataFim").html("") 
         $("#preco").val("");
+        classAgendamentos.init();
+ 
+    }
+
+    function editarAgendamento(){
+        console.log("editarAgendamento");
+        var urlAgendamento= SITEURL+"/api/agendamentos";
+        var urlPreco= SITEURL+"/api/precos";
+        // console.log(url);
+        var idAgendamento = $("#idAgendamentoEdit").val();
+        var visitante = $("#visitanteEdit").val();
+        var responsavel = $("#responsavelEdit").val();
+        var quantidadePessoas = $("#quantidadePessoasEdit").val();
+        var pacote = $("#pacoteEdit").val();
+        var preco = $("#precoEdit").val();
+        var dadosAgendamento = {};
+        var dadosPreco = {};
+
+        console.log(idAgendamento);
+        console.log(visitante);
+        console.log(responsavel);
+        console.log(quantidadePessoas);
+        console.log(pacote);
+        console.log(dataInicial);
+        console.log(dataFinal);
+        console.log(preco);
+      
+        if(preco == ""){
+            alert("Preço do Agendamento é um campo abrigatório");
+            $("#preco").focus();
+            return("Erro: Preço do Agendamento Obrigatório");
+        }
+        
+        if(pacote ==0){
+            dadosAgendamento =  {
+                                    "data_inicio":dataInicial+" 00:01:01",
+                                    "data_fim":dataFinal+" 23:59:59",
+                                    "id_visitante":visitante,
+                                    "id_responsavel":responsavel,
+                                    "qtd_pessoas":quantidadePessoas,
+                                    "status":1
+                                };
+        }else{
+            dadosAgendamento =  {
+                                    "data_inicio":dataInicial+" 00:01:01",
+                                    "data_fim":dataFinal+" 23:59:59",
+                                    "id_visitante":visitante,
+                                    "id_responsavel":responsavel,
+                                    "id_pacote":pacote,
+                                    "qtd_pessoas":quantidadePessoas,
+                                    "status":1
+                                };
+        }
+
+        // $.ajax({headers: {}, data:dadosAgendamento, method: "PUT", url: urlAgendamento})
+        // .done(function (dados) {
+        //     console.log("salvando agendamento");
+        //     console.log(dados.id);
+        //     dadosPreco =  {
+        //                 "id_agendamento": dados.id,
+        //                 "valor": preco.replaceAll(".","").replace(",","."),
+        //                 "valido": 1
+        //             };
+
+         
+        //     $.ajax({headers: {}, data:dadosPreco, method: "POST", url: urlPreco})
+        //     .done(function (dados) {
+        //         console.log(dados);
+        //     })
+        //     .fail(function () {
+        //         //console.log("Requisição com falha. ");
+        //     })
+        //     .always(function() {});
+
+        //     })
+        // .fail(function () {
+        //     //console.log("Requisição com falha. ");
+        // })
+        // .always(function() {});
+
+
+     
+      
+        alert("Agendamento alterado com sucesso!");
+        $('#modalAgendamentoEdit').modal('hide');
+        $("#visitanteEdit").val("");
+        $("#responsavelEdit").val("");
+        $("#quantidadePessoasEdit").val("");
+        $("#pacoteEdit").val("");
+        $("#precoEdit").val("");
         classAgendamentos.init();
  
     }

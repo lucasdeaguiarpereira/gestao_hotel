@@ -152,7 +152,7 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#" class="colorTextLateral nav-link link-dark">
+                <a href="/usuarios" class="colorTextLateral nav-link link-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-lines-fill me-3 ms-3" viewBox="0 0 16 16">
                         <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
                     </svg>
@@ -168,7 +168,7 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#" class="colorTextLateral nav-link link-dark">
+                <a href="/areadeemails" class="colorTextLateral nav-link link-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-fill me-3 ms-3" viewBox="0 0 16 16">
                         <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
                     </svg>
@@ -176,7 +176,7 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#" class="colorTextLateral nav-link link-dark">
+                <a href="/relatorios" class="colorTextLateral nav-link link-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-graph-up-arrow me-3 ms-3" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5Z"/>
                     </svg>
@@ -184,12 +184,17 @@
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <a href="#" class="colorTextLateral nav-link link-dark">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-door-open-fill me-3 ms-3" viewBox="0 0 16 16">
-                        <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
-                    </svg>
-                    Sair
-                </a>
+                <form  method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-jet-dropdown-link style="font-size:14px !important;" class="colorTextLateral nav-link link-dark" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-door-open-fill me-3 ms-3" viewBox="0 0 16 16">
+                            <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                        </svg>
+                        {{ __('Sair') }}
+                    </x-jet-dropdown-link>
+                </form>
             </li>
             @endif
         </ul>
