@@ -569,7 +569,9 @@
                     }, 500);
                 });
                 agendamentosGlobal = dados;
-                geraCalendario(dados);
+                setTimeout(() => {
+                    geraCalendario(dados);
+                }, 1000);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");

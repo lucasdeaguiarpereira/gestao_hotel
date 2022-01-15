@@ -294,7 +294,9 @@
             $.ajax({headers: {},method: "GET", url: url})
             .done(function (dados) {
                 $("#loading").show();
-                geraAgendamentosList(dados);
+                setTimeout(() => {
+                    geraAgendamentosList(dados);
+                }, 500);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
@@ -308,7 +310,10 @@
                 gerarUsuarios();
                 gerarPrecos();
                 gerarPacotes();
-                gerarDados();
+                setTimeout(() => {
+                    gerarDados();
+                }, 500);
+                
             }
         };
 

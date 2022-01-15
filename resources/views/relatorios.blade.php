@@ -703,8 +703,10 @@
             init: function (dataInicial,dataFinal) {
                 gerarUsuarios();
                 gerarPacotes();
-                gerarDadosFaturamento(dataInicial,dataFinal);
-                gerarDadosFaturamentoAnual(dataInicial,dataFinal);
+                setTimeout(() => {
+                    gerarDadosFaturamento(dataInicial,dataFinal);
+                    gerarDadosFaturamentoAnual(dataInicial,dataFinal);
+                }, 500);
             }
         };
 
