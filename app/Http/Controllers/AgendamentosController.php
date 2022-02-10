@@ -24,13 +24,14 @@ class AgendamentosController extends Controller
    
     public function update(Request $request, $id)
     {
-        $usuario = Agendamentos::findOrFail($id);
-        $usuario->update($request->all());
+        $agendamento = Agendamentos::findOrFail($id);
+        $agendamento->update($request->all());
+        return $agendamento;
     }
 
     public function destroy($id)
     {
-        $usuario = Agendamentos::findOrFail($id);
-        $usuario->delete();
+        $agendamento = Agendamentos::findOrFail($id);
+        $agendamento->delete();
     }
 }

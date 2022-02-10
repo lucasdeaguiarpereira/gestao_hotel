@@ -25,6 +25,20 @@
 
                 </select>
             </div>
+            <div class="hidden">
+                <x-jet-label for="valido" value="{{ __('valido') }}" />
+                
+                <select id="valido" class="block mt-1 w-full" name="valido" :value="old('valido')" required autofocus>
+
+                    <option value="1" selected>
+                        Valido
+                    </option>
+                    <option value="0">
+                        Invalido
+                    </option>
+
+                </select>
+            </div>
             
             <div>
                 <!-- <x-jet-label for="name" value="{{ __('Nome') }}" /> -->

@@ -23,13 +23,35 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
 
         <style type="text/css">
+            /* width */
+            ::-webkit-scrollbar {
+                width: 0px;
+            }
+
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1; 
+            }
+            
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #888; 
+            }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+            }
+            .modal {
+                overflow-y:auto;
+            }
             body, html{height: 100%;font-size:14px;}
             .nav-link{display:flex !important;}
             .principal{height: 100%;}
             .menuSuperior{width:80%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
             .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);}
-            .menuLateralReduzido{background-color:#F0EAD2;float:left;width:5% ;height: 100%; min-height: 100%;position: fixed;}
-            .menuLateral{background-color:#F0EAD2;float:left;width:20% ;height: 100%; min-height: 100%;position: fixed;}
+            .menuLateralReduzido{overflow-y:auto;background-color:#F0EAD2;float:left;width:5% ;height: 100%; min-height: 100%;position: fixed;}
+            .menuLateral{overflow-y:auto;background-color:#F0EAD2;float:left;width:20% ;height: 100%; min-height: 100%;position: fixed;}
             .container-fluid{background-color:#F2F2F2;width:80%;padding-left:0px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
             .colorTextLateral{color: #746154;font-weight:400;}
             .nav-item:hover{background-color:#D6CDB7;}
