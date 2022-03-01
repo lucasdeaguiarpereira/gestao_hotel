@@ -28,3 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/imagemPacote', 'App\Http\Controllers\PacotesController@salvarImagem');
 Route::get('/precoValido/{idAgendamento}', 'App\Http\Controllers\PrecosController@getPrecoValido');
 Route::get('/faturamentoTotal/{dataInicial}/{dataFinal}', 'App\Http\Controllers\RelatoriosController@getFaturamentoTotal');
+
+Route::post('/enviarEmail','App\Http\Controllers\EmailController@getEmail');
+
