@@ -50,8 +50,8 @@
             @media only screen and (max-width: 600px) {
                 .menuLateralReduzido{background-color:#F0EAD2;float:left;width:60px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
                 .menuLateral{background-color:#F0EAD2;float:left;width:250px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
-                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
-                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);padding-top:25%;padding-bottom:20%;}
+                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #005f2f, #00b057);text-align: right;position:fixed;z-index:2;}
+                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:25%;padding-bottom:20%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
                 .row{--bs-gutter-x:0.5em !important;}
             }
@@ -60,8 +60,8 @@
             @media only screen and (min-width: 600px) {
                 .menuLateralReduzido{background-color:#F0EAD2;float:left;width:60px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
                 .menuLateral{background-color:#F0EAD2;float:left;width:300px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
-                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
-                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);padding-top:13%;padding-bottom:17%;}
+                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #005f2f, #00b057);text-align: right;position:fixed;z-index:2;}
+                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:13%;padding-bottom:17%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
             }
         
@@ -72,8 +72,8 @@
             @media only screen and (min-width: 1000px) {
                 .menuLateralReduzido{background-color:#F0EAD2;float:left;width:60px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
                 .menuLateral{background-color:#F0EAD2;float:left;width:300px ;height: 100%; min-height: 100%;position: fixed;z-index:100;}
-                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);text-align: right;position:fixed;z-index:2;}
-                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);padding-top:13%;padding-bottom:17%;}
+                .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #005f2f, #00b057);text-align: right;position:fixed;z-index:2;}
+                .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:13%;padding-bottom:17%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
                 .calendario{max-width: 950px !important;}
             }

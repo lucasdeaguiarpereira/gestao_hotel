@@ -224,7 +224,7 @@
                                 <div class="row justify-content-md-center">
                                 <div class="col-lg-8 col-lg-10 col-md-10 col-sm-12">
                                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:20px;">
-                                        <div class="container row mt-4 mb-4">
+                                        <div class="row ms-4 me-4 mt-4 mb-4">
                                             <div class="col-6">
                                                 <img style="width:100%;height:170px;" class="rounded-3" src='{{asset("assets/`+pacote.img+`")}}'>
                                             </div>

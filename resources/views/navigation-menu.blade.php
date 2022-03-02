@@ -91,7 +91,7 @@
         </button>
         <div style="align-self:center !important;">
             <a href="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img style="width:100px;" src='{{asset("assets\logo_turquesa.png")}}'>
+                <img style="width:100px;border-radius: 15px !important;" src='{{asset("assets\logo.png")}}'>
             </a>
         </div>
         

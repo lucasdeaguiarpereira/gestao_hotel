@@ -30,7 +30,7 @@
                     <div class="row justify-content-md-center">
                         <div class="col-12">
                             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
-                                <div class="container row mt-4 mb-4">
+                                <div class="row ms-4 me-4 mt-4 mb-4">
                                     <div id="tableUsuarios" class="col-12 table-responsive">
                                      
                                     </div>

@@ -47,7 +47,7 @@
         </style>
     </head>
     <body>
-        <div style="width:100%;height:300px;background-image: linear-gradient(to right, #35A0A3, #A7CF8D);">
+        <div style="width:100%;height:300px;background-image: linear-gradient(to right, #005f2f, #00b057);">
         </div>
         <div id="guest" style="margin-top:-300px;" class="font-sans text-gray-900 antialiased">
             {{ $slot }}

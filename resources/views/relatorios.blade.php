@@ -184,7 +184,7 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
-                            <div id="variacaoPrecos" class="container row mt-5 mb-5">
+                            <div id="variacaoPrecos" class="row ms-5 me-5 mt-5 mb-5">
                                 <h5 class="ps-5" style="font-weight:bold;">Variação de faturamento dos pacotes em <span class="ano"></h5>
                                 <p class="ps-5" style="color:#a6a6c4;">Variação do faturamento em reservas utilizando pacotes ao longo do ano de <span class="ano"></span>.</p>
                                 <div id="graficoVariacaoPrecos"></div>

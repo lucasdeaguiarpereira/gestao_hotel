@@ -212,7 +212,7 @@
                                 <div class="row justify-content-md-center">
                                     <div class="col-12">
                                         <div class="overflow-hidden shadow-xl sm:rounded-lg" style="background-color:`+fundo+`;border-radius:20px;">
-                                            <div class="container row mt-5 mb-5 ms-3 me-3">
+                                            <div class="row mt-5 mb-5 ms-3 me-3">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <h5 style="font-weight:bold;">`+nomeCliente+`</h5>
@@ -353,7 +353,7 @@
                                     <div class="row justify-content-md-center">
                                         <div class="col-12">
                                             <div class="overflow-hidden shadow-xl sm:rounded-lg" style="background-color:`+fundo+`;border-radius:20px;">
-                                                <div class="container row mt-5 mb-5 ms-3 me-3">
+                                                <div class="row mt-5 mb-5 ms-3 me-3">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <h5 style="font-weight:bold;">`+nomeCliente+`</h5>
