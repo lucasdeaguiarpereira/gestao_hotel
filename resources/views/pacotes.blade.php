@@ -1,6 +1,6 @@
 
 <x-app-layout>
-    <div class="tituloSuperior text-center" style="padding-top:13%;padding-bottom:17%;">
+    <div class="tituloSuperior text-center" style="padding-top:20%;padding-bottom:17%;">
         <div style="color:white;">
             <h3>Pacotes</h3>
             @if (Auth::user()->id_tipo_usuario == 1)
@@ -225,10 +225,10 @@
                                 <div class="col-lg-8 col-lg-10 col-md-10 col-sm-12">
                                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:20px;">
                                         <div class="row ms-4 me-4 mt-4 mb-4">
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <img style="width:100%;height:170px;" class="rounded-3" src='{{asset("assets/`+pacote.img+`")}}'>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6 col-sm-12">
                                                 <div class="row">
                                                     <div class="col-12" style="font-weight:bold;font-size:1em;">
                                                         `+pacote.nome_pacote+`
@@ -268,7 +268,7 @@
                                                 </div>
                                                 <div class="row pt-2">
                                                     @if (Auth::user()->id_tipo_usuario == 1)
-                                                    <div class="col-4">
+                                                    <div class="alinhaFim mt-1 col-md-4 col-sm-12">
                                                         <button type="button" onclick="modalEditPacote(`+pacote.id+`)" style="color:white;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" style="padding-top: 3px;" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -277,7 +277,7 @@
                                                             Editar
                                                         </button>
                                                     </div>
-                                                    <div class="col-8">
+                                                    <div class="alinhaFim mt-1 col-md-8 col-sm-12">
                                                         <button type="button" onclick="excluirPacote(`+pacote.id+`)" style="display:inline-flex;" class="btn btn-danger rounded-pill">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"  style="padding-top: 3px;" class="bi bi-trash" viewBox="0 0 16 16">
                                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -288,9 +288,9 @@
                                                     </div>
                                                     @endif  
                                                     @if (Auth::user()->id_tipo_usuario == 2)
-                                                    <div class="col-4">
+                                                    <div class="alinhaFim mt-1 col-md-4 col-sm-12">
                                                     </div>
-                                                    <div class="col-8">
+                                                    <div class="alinhaFim mt-1 col-md-8 col-sm-12">
                                                         <button type="button" onclick="comprarPacote(`+pacote.id+`)" style="color:white;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style="padding-top: 3px;padding-right: 3px;" class="bi bi-cart-plus" viewBox="0 0 16 16">
                                                                 <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>

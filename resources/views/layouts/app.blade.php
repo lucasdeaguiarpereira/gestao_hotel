@@ -54,6 +54,7 @@
                 .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:25%;padding-bottom:20%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
                 .row{--bs-gutter-x:0.5em !important;}
+                .alinhaFim{text-align:center;}
             }
         
      
@@ -63,6 +64,7 @@
                 .menuSuperior{width:100%;height:60px;background-image: linear-gradient(to right, #005f2f, #00b057);text-align: right;position:fixed;z-index:2;}
                 .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:13%;padding-bottom:17%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
+                .alinhaFim{text-align:right;}
             }
         
             @media only screen and (max-width: 1010px) {
@@ -76,6 +78,7 @@
                 .tituloSuperior{width:100%;height:60%;background-image: linear-gradient(to right, #005f2f, #00b057);padding-top:13%;padding-bottom:17%;}
                 .container-fluid{background-color:#F2F2F2;width:100%;padding-left:60px;padding-right:0px;margin-right:inherit;margin-left:inherit;float:right;}
                 .calendario{max-width: 950px !important;}
+                .alinhaFim{text-align:center;}
             }
 
             body, html{height: 100%;font-size:14px;}

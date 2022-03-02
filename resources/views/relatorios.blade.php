@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-9">
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-sm-12">
                     <label style="color:white;">Filtrar por data</label>
                     <input type="text" name="dates" class="form-control pull-right">
                 </div>
@@ -19,9 +19,9 @@
                Carregando ...
             </div>
             <div id="dadosGerais" style="display:none;">
-                <div class="row mt-4">
+                <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="height:255px;border-radius:10px;">
+                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4" style="height:255px;border-radius:10px;">
                             <div id="faturamentoTotal" class="mt-5">
                                 <h5 class="ps-5" style="font-weight:bold;">Faturamento total no período</h5>
                                 <p class="ps-5" style="color:#a6a6c4;">Valor faturado no período selecionado</p>
@@ -35,17 +35,17 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12" style="height:100%;">
-                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="height:255px;border-radius:10px;">
+                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4" style="height:255px;border-radius:10px;">
                             <div id="faturamentoTotalAnual" class="mt-5 mb-4 me-5 ms-5">
                                 <div class="row">
-                                    <div class="col-2" style="background-color:#F2F2F2;border-radius:10px;text-align:-webkit-center;padding-top:18px;padding-bottom:18px;">
+                                    <div class="col-md-2 col-sm-12" style="background-color:#F2F2F2;border-radius:10px;text-align:-webkit-center;padding-top:18px;padding-bottom:18px;">
                                         
                                         <svg xmlns="http://www.w3.org/2000/svg" style="color:#71BF94;" width="32" height="32" fill="currentColor" class="bi bi-calendar-week-fill" viewBox="0 0 16 16">
                                         <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
                                         </svg>    
                                         
                                     </div>
-                                    <div class="col-10">
+                                    <div class="col-md-10 col-sm-12">
                                         <h5 style="font-weight:bold;">Faturamento total anual</h5>
                                         <p style="color:#a6a6c4;">Este ano considerando de Janeiro à Dezembro</p>
                                     </div>
@@ -58,10 +58,10 @@
                                     <div class="progress-bar" role="progressbar" style="width: 50%;background-color:#71BF94;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6" style="color:#a6a6c4;">
+                                    <div class="col-md-6 col-sm-12" style="color:#a6a6c4;">
                                         Janeiro
                                     </div>
-                                    <div class="col-6" style="text-align:right;color:#a6a6c4;">
+                                    <div class="col-md-6 col-sm-12" style="text-align:right;color:#a6a6c4;">
                                         Dezembro
                                     </div>
                                 </div>
@@ -71,15 +71,15 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-6 col-sm-12">
-                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
+                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4" style="border-radius:10px;">
                             <div id="pacotesMaisVendidos" class="container row mt-5 mb-5">
                                 <h5 class="ps-5" style="font-weight:bold;">Pacotes mais vendidos</h5>
                                 <p class="ps-5" style="color:#a6a6c4;">Comparativo entre os pacotes</p>
                                 <div class="row">
-                                    <div class="col-6 pt-5">
+                                    <div class="col-md-6 col-sm-12 pt-5">
                                         <div id="graficoPacotesMaisVendidos"></div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6 col-sm-12 ">
                                         <div class="row mt-4">
                                             <div class="col-3" style="background-color:#F2F2F2;border-radius:10px;text-align:-webkit-center;padding-top:15px;padding-bottom:15px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFC107" class="bi bi-trophy-fill" viewBox="0 0 16 16">
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
-                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
+                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4" style="border-radius:10px;">
                             <div id="melhoresCliente" class="container row mt-5 mb-5">
                                 <h5 class="ps-5" style="font-weight:bold;">Ranking de melhores clientes</h5>
                                 <p class="ps-5" style="color:#a6a6c4;">Lista dos clientes que mais compram</p>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="border-radius:10px;">
+                        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-4" style="border-radius:10px;">
                             <div id="variacaoPrecos" class="row ms-5 me-5 mt-5 mb-5">
                                 <h5 class="ps-5" style="font-weight:bold;">Variação de faturamento dos pacotes em <span class="ano"></h5>
                                 <p class="ps-5" style="color:#a6a6c4;">Variação do faturamento em reservas utilizando pacotes ao longo do ano de <span class="ano"></span>.</p>
