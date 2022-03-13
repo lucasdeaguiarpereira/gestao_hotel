@@ -280,7 +280,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Enviando para <span id="nomeUsuario"></span>...</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Enviando e-mail para <span id="nomeUsuario"></span>...</h5>
             </div>
         </div>
     </div>
@@ -1186,7 +1186,7 @@
 
             //inicio envio email cliente
             var urlEmail= SITEURL+"/api/enviarEmail";
-            $("#nomeUsuario").html(visitanteDados.name);
+            $("#nomeUsuario").html("Serra do Bené");
             $('#modalEnvio').modal('show');
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
@@ -1748,7 +1748,7 @@
 
             //inicio envio email editar cliente
             var urlEmail= SITEURL+"/api/enviarEmail";
-            $("#nomeUsuario").html(visitanteDados.name);
+            $("#nomeUsuario").html("Serra do Bené");
             $('#modalEnvio').modal('show');
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
