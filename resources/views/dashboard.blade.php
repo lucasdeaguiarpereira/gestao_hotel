@@ -396,7 +396,10 @@
                 })
                 .fail(function () {
                     //console.log("Requisição com falha. ");
-                    alert("Problema no envio do email!");
+                    setTimeout(() => {
+                        alert("Problema no envio do email!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
                 })
                 .always(function() {});
 
@@ -418,12 +421,17 @@
 
                 $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
                 .done(function () {
-                    $('#modalEnvio').modal('hide');
-                    alert("Email enviado com sucesso para o cliente!");
+                    setTimeout(() => {
+                        alert("Email enviado com sucesso para o cliente!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
                 })
                 .fail(function () {
                     //console.log("Requisição com falha. ");
-                    alert("Problema no envio do email!");
+                    setTimeout(() => {
+                        alert("Problema no envio do email!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
                 })
                 .always(function() {});
                 //fim envio de email salvamento responsavel
@@ -477,7 +485,10 @@
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
 
@@ -499,12 +510,17 @@
 
             $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
             .done(function () {
-                $('#modalEnvio').modal('hide');
-                alert("Email enviado com sucesso para o cliente!");
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
             //fim envio de email salvamento responsavel
@@ -1194,7 +1210,10 @@
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
 
@@ -1216,12 +1235,17 @@
 
             $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
             .done(function () {
-                $('#modalEnvio').modal('hide');
-                alert("Email enviado com sucesso para o cliente!");
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
             //fim envio email cliente
@@ -1374,7 +1398,10 @@
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
 
@@ -1392,12 +1419,17 @@
 
             $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
             .done(function () {
-                $('#modalEnvio').modal('hide');
-                alert("Email enviado com sucesso para o cliente!");
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
             //fim envio de email salvamento responsavel
@@ -1441,7 +1473,7 @@
             })
             .always(function() {});
 
-            })
+        })
         .fail(function () {
             //console.log("Requisição com falha. ");
             alert("Problema no salvamento do agendamento!");
@@ -1555,7 +1587,10 @@
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
 
@@ -1572,12 +1607,19 @@
 
             $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
             .done(function () {
-                $('#modalEnvio').modal('hide');
-                alert("Email enviado com sucesso para o cliente!");
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
+                
+                
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
             //fim envio email edicao
@@ -1726,7 +1768,10 @@
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
 
@@ -1743,12 +1788,17 @@
 
             $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
             .done(function () {
-                $('#modalEnvio').modal('hide');
-                alert("Email enviado com sucesso para o cliente!");
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .fail(function () {
                 //console.log("Requisição com falha. ");
-                alert("Problema no envio do email!");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
             })
             .always(function() {});
             //fim envio email editar cliente
