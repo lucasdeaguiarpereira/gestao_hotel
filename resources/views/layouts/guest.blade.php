@@ -20,6 +20,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
         <style type="text/css">
+            .font-medium{
+                display: none;
+            }
+
             /* width */
             ::-webkit-scrollbar {
                 width: 0px;
@@ -60,9 +64,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.11.2/jquery.mask.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                $("#guest").children().attr("class","min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-transparent");
+               $("#telefone").mask("(00) 00000-0000", {reverse: false});
             });
         </script>
     </body>

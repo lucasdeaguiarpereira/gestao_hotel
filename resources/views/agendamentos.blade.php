@@ -1,12 +1,15 @@
 
 <x-app-layout>
-    <div class="tituloSuperior text-center" style="padding-top:20%;padding-bottom:17%;">
-        <div style="color:white;">
+    <div class="tituloSuperior text-center" style="padding-top:75px;padding-bottom:150px;">
+        <div class="logoCentral" style="text-align:-webkit-center;align-self:center !important;">
+            <img style="width:300px;height:200px;border-radius: 15px !important;" src='{{asset("assets\logo.png")}}'>
+        </div>
+        <div style="color:white;margin-top:30px;">
             <h3>Agendamentos</h3>
                 <h5>Veja os pedidos e agendamentos futuros</h5>
         </div>
     </div>
-    <div class="ms-5 me-5" style="margin-top:-10%;margin-bottom:5%;">
+    <div class="ms-5 me-5" style="margin-top:-120px;margin-bottom:30px;">
         <div>
             @if (Auth::user()->id_tipo_usuario == 1)
             <div class="row">
@@ -31,6 +34,16 @@
     </div>
 </x-app-layout>
 
+<div class="modal fade" id="modalEnvio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Enviando e-mail para <span id="nomeUsuario"></span>...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.11.2/jquery.mask.min.js"></script>
 <script type="text/javascript">
     "use strict";
@@ -40,31 +53,202 @@
     var usuariosGlobal = "";
     var precosGlobal = "";
 
+
+
     function confirmarAgendamento(idAgendamento){
         var url = SITEURL+"/api/agendamentos/"+idAgendamento;
+        var agendamento = agendamentosGlobal.find(agendamento => agendamento.id == idAgendamento);    
+        var visitante = usuariosGlobal.find(usuario => usuario.id == agendamento.id_visitante);    
+        var preco = precosGlobal.find(preco => preco.id_agendamento == agendamento.id);    
+        if(preco == undefined){
+            alert("Necessário colocar um preço para confirmar o agendamento.");
+        }else{
+            // console.log("CONFIRMAÇÕES");
+            // console.log(agendamento);
+            // console.log(visitante);
+            // console.log(preco);
+    
+            console.log(url);
+            $.ajax({headers: {},data:{"status":2},method: "PUT", url: url})
+            .done(function () {
+                
+                //inicio envio de email salvamento responsavel
+                var urlEmail= SITEURL+"/api/enviarEmail";
+                $("#nomeUsuario").html(visitante.name);
+                $('#modalEnvio').modal('show');
+                // console.log(url);
+                var destinatario = "serradobene@gmail.com";
+                var assunto = "Serra do Bené - Confirmação Agendamento - "+visitante.name;
+                var texto = "O agendamento do dia <b>"+moment(agendamento.data_inicio).format('DD/MM/YYYY')+" até "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"</b> foi <b>confirmado</b> para o cliente com os seguintes dados:<br><br>"+
+                            "<b>Nome</b>: "+visitante.name+"<br>"+          
+                            "<b>Telefone</b>: "+visitante.telefone+"<br>"+
+                            "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
+                            "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+agendamento.comentario;
+        
+                var dadosEmail =  {
+                                    "destinatario":destinatario,
+                                    "assunto":assunto,
+                                    "texto":texto
+                                };
             
-            // console.log(url);
-        $.ajax({headers: {},data:{"status":2},method: "PUT", url: url})
-        .done(function () {
-            var confirmacao = confirm("Orçamento Aprovado com sucesso!");
-            if(confirmacao){
-                $("#agendamentosList").hide();
-                $("#loading").show();
-                classAgendamentos.init();
-            }
-        })
-        .fail(function () {
-            //console.log("Requisição com falha. ");
-        })
-        .always(function() {});
+
+                $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
+                .done(function () {
+                
+                })
+                .fail(function () {
+                    //console.log("Requisição com falha. ");
+                    setTimeout(() => {
+                        alert("Problema no envio do email!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
+                })
+                .always(function() {});
+
+
+                var destinatario = visitante.email;
+                var texto = "Olá "+visitante.name+", seu agendamento na Serra do Bené foi <b>confirmado</b>, segue as informações detalhadas para conferir:<br><br>"+
+                            "<b>Início:</b> "+moment(agendamento.data_inicio).format('DD/MM/YYYY')+"<br>"+
+                            "<b>Término:</b> "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"<br>"+
+                            "<b>Quantidade de visitantes:</b> "+agendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço:</b> R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
+                            "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+agendamento.comentario+"<br><br>"+
+                            "Desde já agradecemos sua preferência pela Serra do Bené!";
+        
+        
+                var dadosEmail =  {
+                                    "destinatario":destinatario,
+                                    "assunto":assunto,
+                                    "texto":texto
+                                };
+            
+
+                $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
+                .done(function () {
+                    setTimeout(() => {
+                        alert("Email enviado com sucesso para o cliente!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
+                })
+                .fail(function () {
+                    //console.log("Requisição com falha. ");
+                    setTimeout(() => {
+                        alert("Problema no envio do email!");
+                        $('#modalEnvio').modal('hide');
+                    }, 5000);
+                })
+                .always(function() {});
+                //fim envio de email salvamento responsavel
+                
+                var confirmacao = confirm("Orçamento Aprovado com sucesso!");
+                if(confirmacao){
+                    $("#agendamentosList").hide();
+                    $("#loading").show();
+                    classAgendamentos.init();
+                }
+            })
+            .fail(function () {
+                //console.log("Requisição com falha. ");
+            })
+            .always(function() {});
+        }
     }
+    
+
+  
 
     function cancelarAgendamento(idAgendamento){
         var url = SITEURL+"/api/agendamentos/"+idAgendamento;
-            
+        var agendamento = agendamentosGlobal.find(agendamento => agendamento.id == idAgendamento);    
+        var visitante = usuariosGlobal.find(usuario => usuario.id == agendamento.id_visitante);    
+        var preco = precosGlobal.find(preco => preco.id_agendamento == agendamento.id);  
+       
             // console.log(url);
         $.ajax({headers: {},data:{"status":3},method: "PUT", url: url})
         .done(function () {
+
+            //inicio envio de email salvamento responsavel
+            var urlEmail= SITEURL+"/api/enviarEmail";
+            $("#nomeUsuario").html(visitante.name);
+            $('#modalEnvio').modal('show');
+            // console.log(url);
+            var destinatario = "serradobene@gmail.com";
+            var assunto = "Serra do Bené - Cancelamento Agendamento - "+visitante.name;
+            var texto = "O agendamento do dia <b>"+moment(agendamento.data_inicio).format('DD/MM/YYYY')+" até "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"</b> foi <b>cancelado</b> para o cliente com os seguintes dados:<br><br>"+
+                        "<b>Nome</b>: "+visitante.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitante.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>";
+                        if(preco == undefined){
+                            texto +="<b>Preço</b>: Não negociado.<br>";
+                        }else{
+                            texto +="<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>";
+                        }
+                texto += "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                         "<b>Observação</b>: "+agendamento.comentario;
+    
+            var dadosEmail =  {
+                                "destinatario":destinatario,
+                                "assunto":assunto,
+                                "texto":texto
+                            };
+        
+
+            $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
+            .done(function () {
+            
+            })
+            .fail(function () {
+                //console.log("Requisição com falha. ");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
+            })
+            .always(function() {});
+
+
+            var destinatario = visitante.email;
+            var texto = "Olá "+visitante.name+", seu agendamento na Serra do Bené foi <b>cancelado</b>, segue as informações detalhadas para conferir:<br><br>"+
+                        "<b>Início:</b> "+moment(agendamento.data_inicio).format('DD/MM/YYYY')+"<br>"+
+                        "<b>Término:</b> "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>";
+                        if(preco == undefined){
+                            texto +="<b>Preço</b>: Não negociado.<br>";
+                        }else{
+                            texto +="<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>";
+                        }
+                texto += "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                         "<b>Observação</b>: "+agendamento.comentario+"<br><br>"+
+                        "Esperamos contar com sua visita futura na Serra do Bené!";
+        
+    
+    
+            var dadosEmail =  {
+                                "destinatario":destinatario,
+                                "assunto":assunto,
+                                "texto":texto
+                            };
+        
+
+            $.ajax({headers: {}, data:dadosEmail, method: "POST", url: urlEmail})
+            .done(function () {
+                setTimeout(() => {
+                    alert("Email enviado com sucesso para o cliente!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
+            })
+            .fail(function () {
+                //console.log("Requisição com falha. ");
+                setTimeout(() => {
+                    alert("Problema no envio do email!");
+                    $('#modalEnvio').modal('hide');
+                }, 5000);
+            })
+            .always(function() {});
+            //fim envio de email salvamento responsavel
             var confirmacao = confirm("Orçamento Cancelado com sucesso!");
             if(confirmacao){
                 $("#agendamentosList").hide();
@@ -220,23 +404,29 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-4 col-sm-12">
-                                                        <div class="mt-2" style="display:flex;">
+                                                        <!--<div class="mt-2" style="display:flex;">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam me-2" viewBox="0 0 16 16">
                                                                 <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
                                                             </svg>
                                                             Pacote: `+(nomePacote == "" ? "-" : nomePacote)+`
-                                                        </div>
+                                                        </div>-->
                                                         `+
-                                                        (nomePacote == "" ? "" :
-                                                        `<div class="mt-2" style="display:flex;"> 
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
-                                                                <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
-                                                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                        `<div class="mt-2" style="display:flex;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-people me-2" viewBox="0 0 16 16">
+                                                                <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
                                                             </svg>
-                                                            `+qtdDias+` dias no pacote
+                                                            Pessoas: `+agendamento.qtd_pessoas+`
                                                         </div>`
-                                                        )+`
-                                                        <div class="mt-2" style="display:flex;">
+                                                        // (nomePacote == "" ? "" :
+                                                        // `<div class="mt-2" style="display:flex;"> 
+                                                        //     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
+                                                        //         <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+                                                        //         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                        //     </svg>
+                                                        //     `+qtdDias+` dias no pacote
+                                                        // </div>`
+                                                        // )
+                                                        +`<div class="mt-2" style="display:flex;">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
                                                                 <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
                                                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -245,12 +435,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 col-sm-12">
-                                                        <div class="mt-2" style="display:flex;">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-people me-2" viewBox="0 0 16 16">
-                                                                <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-                                                            </svg>
-                                                            Pessoas: `+agendamento.qtd_pessoas+`
-                                                        </div>
                                                         <div class="mt-2" style="display:flex;">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat-quote me-2" viewBox="0 0 16 16">
                                                                 <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
@@ -270,7 +454,7 @@
                                                         <h4 style="font-weight:bold;color:#71BF94;">
                                                             R$ `+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(precoValido)+`
                                                         </h4>
-                                                        <a href="https://api.whatsapp.com/send?phone=055`+telefoneCliente+`&text=Gostaria de entrar em contato para ..." target="_blank" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
+                                                        <a href="https://api.whatsapp.com/send?phone=55`+telefoneCliente+`&text=Gostaria de entrar em contato para ..." target="_blank" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
                                                             Entrar em contato
                                                         </a>
                                                         `+botoes+`
@@ -361,23 +545,29 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4 col-sm-12">
-                                                            <div class="mt-2" style="display:flex;">
+                                                            <!--<div class="mt-2" style="display:flex;">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam me-2" viewBox="0 0 16 16">
                                                                     <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
                                                                 </svg>
                                                                 Pacote: `+(nomePacote == "" ? "-" : nomePacote)+`
-                                                            </div>
+                                                            </div>-->
                                                             `+
-                                                            (nomePacote == "" ? "" :
-                                                            `<div class="mt-2" style="display:flex;"> 
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
-                                                                    <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
-                                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                            `<div class="mt-2" style="display:flex;">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-people me-2" viewBox="0 0 16 16">
+                                                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
                                                                 </svg>
-                                                                `+qtdDias+` dias no pacote
-                                                            </div>`
-                                                            )+`
-                                                            <div class="mt-2" style="display:flex;">
+                                                                Pessoas: `+agendamento.qtd_pessoas+`
+                                                            </div>` 
+                                                            // (nomePacote == "" ? "" :
+                                                            // `<div class="mt-2" style="display:flex;"> 
+                                                            //     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
+                                                            //         <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+                                                            //         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                            //     </svg>
+                                                            //     `+qtdDias+` dias no pacote
+                                                            // </div>`
+                                                            // )
+                                                            +`<div class="mt-2" style="display:flex;">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date me-2" viewBox="0 0 16 16">
                                                                     <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
                                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -386,12 +576,6 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-sm-12">
-                                                            <div class="mt-2" style="display:flex;">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-people me-2" viewBox="0 0 16 16">
-                                                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-                                                                </svg>
-                                                                Pessoas: `+agendamento.qtd_pessoas+`
-                                                            </div>
                                                             <div class="mt-2" style="display:flex;">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat-quote me-2" viewBox="0 0 16 16">
                                                                     <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
@@ -411,7 +595,7 @@
                                                             <h4 style="font-weight:bold;color:#71BF94;">
                                                                 R$ `+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(precoValido)+`
                                                             </h4>
-                                                            <a href="https://api.whatsapp.com/send?phone=055`+telefoneCliente+`&text=Gostaria de entrar em contato para ..." target="_blank" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
+                                                            <a href="https://api.whatsapp.com/send?phone=5503196524030&text=Gostaria de entrar em contato para ..." target="_blank" style="margin-bottom:10px;color:white;width:80%;display:flex;align-items:center;justify-content:center;background-color:#71BF94;display:inline-flex;" class="btn rounded-pill">
                                                                 Entrar em contato
                                                             </a>
                                                             `+botoes+`

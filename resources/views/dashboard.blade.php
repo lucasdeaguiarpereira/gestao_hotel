@@ -1,17 +1,21 @@
 
 <x-app-layout>
-    <div class="tituloSuperior text-center">
-        <div style="color:white;">
+    <div class="tituloSuperior text-center" style="padding-top:75px;padding-bottom:150px;">
+        <div class="logoCentral" style="text-align:-webkit-center;align-self:center !important;">
+            <img style="width:300px;height:200px;border-radius: 15px !important;" src='{{asset("assets\logo.png")}}'>
+        </div>
+        <div style="color:white;margin-top:30px;">
             <h3>Calendário</h3>
             <h5>Veja o calendário completo</h5>
         </div>
     </div>
-    <div class="row" style="--bs-gutter-x: 0 !important;margin-top:-10%;margin-bottom:5%;justify-content: center!important;">
+    <div class="row" style="--bs-gutter-x: 0 !important;margin-top:-120px;margin-bottom:30px;;justify-content: center!important;">
         <div class="row bg-white overflow-hidden shadow-xl sm:rounded-lg calendario" style="border-radius:20px;justify-content: center!important;">
             <div class="row container mt-5 mb-5 calendario" style="justify-content: center!important;">
                 <div id='loading'>
                     Carregando ...
                 </div>
+                <p>Clique, segure e arraste para selecionar uma data.</p>
                 <div id='full_calendar_events' class="hidden"></div>
             </div>  
         </div>
@@ -46,11 +50,11 @@
                 <div class="row">
                     <div class="col-12 mb-3"> 
                         <label for="quantidadePessoas" class="form-label">Quantidade de Visitantes</label>
-                        <input type="number" min="0" class="rounded-3 form-control" name="quantidadePessoas" id="quantidadePessoas">
+                        <input type="number" placeholder="Mínimo 5 pessoas" min="5" class="rounded-3 form-control" name="quantidadePessoas" id="quantidadePessoas">
                     </div>
                 </div>
                 @if (Auth::user()->id_tipo_usuario == 1)
-                <div class="row">
+                <div class="row d-none">
                     <div class="col-12 mb-3"> 
                         <label for="pacote" class="form-label">Pacote</label>
                         <select id="pacote" onchange="setPrecoPacote($(this).val(),1)" name="pacote" class="form-select">
@@ -65,13 +69,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="comentario" class="form-label">Comentário do caseiro (oculto pra cliente)</label>
+                        <label for="comentario" class="form-label">Observação</label>
                         <input type="text" class="rounded-3 form-control" name="comentario" id="comentario">
                     </div>
                 </div>
                 @endif
                 @if (Auth::user()->id_tipo_usuario == 2)
-                <div class="row">
+                <div class="row d-none">
                     <div class="col-12 mb-3"> 
                         <label for="pacote" class="form-label">Pacote</label>
                         <select id="pacote" onchange="setPrecoPacoteCliente($(this).val(),1)" name="pacote" class="form-select">
@@ -87,7 +91,7 @@
                 @endif
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="descricao" class="form-label">Descrição do cliente</label>
+                        <label for="descricao" class="form-label">Comentário</label>
                         <input type="text" class="rounded-3 form-control" name="descricao" id="descricao">
                     </div>
                 </div>
@@ -149,11 +153,11 @@
                 <div class="row">
                     <div class="col-12 mb-3"> 
                         <label for="quantidadePessoasEdit" class="form-label">Quantidade de Visitantes</label>
-                        <input type="number" min="0" class="rounded-3 form-control" name="quantidadePessoasEdit" id="quantidadePessoasEdit">
+                        <input type="number" min="5" placeholder="Mínimo 5 pessoas" class="rounded-3 form-control" name="quantidadePessoasEdit" id="quantidadePessoasEdit">
                     </div>
                 </div>
                 @if (Auth::user()->id_tipo_usuario == 1)
-                <div class="row">
+                <div class="row d-none">
                     <div class="col-12 mb-3"> 
                         <label for="pacoteEdit" class="form-label">Pacote</label>
                         <select id="pacoteEdit" onchange="setPrecoPacote($(this).val(),2)" name="pacoteEdit" class="form-select">
@@ -168,13 +172,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="comentarioEdit" class="form-label">Comentário do caseiro:</label>
+                        <label for="comentarioEdit" class="form-label">Observação:</label>
                         <input type="text" class="rounded-3 form-control" name="comentarioEdit" id="comentarioEdit">
                     </div>
                 </div>
                 @endif
                 @if (Auth::user()->id_tipo_usuario == 2)
-                <div class="row">
+                <div class="row d-none">
                     <div class="col-12 mb-3"> 
                         <label for="pacoteEdit" class="form-label">Pacote</label>
                         <select id="pacoteEdit" onchange="setPrecoPacoteCliente($(this).val(),2)" name="pacoteEdit" class="form-select">
@@ -190,7 +194,7 @@
                 @endif
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label for="descricaoEdit" class="form-label">Descrição do cliente</label>
+                        <label for="descricaoEdit" class="form-label">Comentário</label>
                         <input type="text" class="rounded-3 form-control" name="descricaoEdit" id="descricaoEdit">
                     </div>
                 </div>
@@ -233,7 +237,7 @@
                         <label class="form-label">Quantidade de Visitantes: <span id="qtdPessoasDetalhe"></span></label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row d-none">
                     <div class="col-12 mb-3"> 
                         <label class="form-label">Pacote: <span id="nomePacoteDetalhe"></span></label>
                     </div>
@@ -245,13 +249,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label class="form-label">Descrição do cliente: <span id="descricaoAgendamentoDetalhe"></span></label>
+                        <label class="form-label">Comentário: <span id="descricaoAgendamentoDetalhe"></span></label>
                     </div>
                 </div>
                 @if (Auth::user()->id_tipo_usuario == 1)
                 <div class="row">
                     <div class="col-12 mb-3"> 
-                        <label class="form-label">Comentário do caseiro: <span id="comentarioAgendamentoDetalhe"></span></label>
+                        <label class="form-label">Observação: <span id="comentarioAgendamentoDetalhe"></span></label>
                     </div>
                 </div>
                 <div class="row">
@@ -285,7 +289,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.11.2/jquery.mask.min.js"></script>
 <script type="text/javascript">
     "use strict";
@@ -377,11 +381,13 @@
                 // console.log(url);
                 var destinatario = "serradobene@gmail.com";
                 var assunto = "Serra do Bené - Confirmação Agendamento - "+visitante.name;
-                var texto = "O seu agendamento na Serra do Bené foi confirmado.<br>"+
-                            "Cliente: "+visitante.name+"<br>"+
-                            "Quantidade de visitantes: "+agendamento.qtd_pessoas+"<br>"+
-                            "Preço: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
-                            "Descrição: "+agendamento.descricao;
+                var texto = "O agendamento do dia <b>"+moment(agendamento.data_inicio).format('DD/MM/YYYY')+" até "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"</b> foi <b>confirmado</b> para o cliente com os seguintes dados:<br><br>"+
+                            "<b>Nome</b>: "+visitante.name+"<br>"+          
+                            "<b>Telefone</b>: "+visitante.telefone+"<br>"+
+                            "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
+                            "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+agendamento.comentario;
         
                 var dadosEmail =  {
                                     "destinatario":destinatario,
@@ -405,11 +411,14 @@
 
 
                 var destinatario = visitante.email;
-                var texto = "O seu agendamento na Serra do Bené foi confirmado.<br>"+
-                            "Cliente: "+visitante.name+"<br>"+
-                            "Quantidade de visitantes: "+agendamento.qtd_pessoas+"<br>"+
-                            "Preço: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
-                            "Descrição: "+agendamento.descricao;
+                var texto = "Olá "+visitante.name+", seu agendamento na Serra do Bené foi <b>confirmado</b>, segue as informações detalhadas para conferir:<br><br>"+
+                            "<b>Início:</b> "+moment(agendamento.data_inicio).format('DD/MM/YYYY')+"<br>"+
+                            "<b>Término:</b> "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"<br>"+
+                            "<b>Quantidade de visitantes:</b> "+agendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço:</b> R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
+                            "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+agendamento.comentario+"<br><br>"+
+                            "Desde já agradecemos sua preferência pela Serra do Bené!";
         
         
                 var dadosEmail =  {
@@ -465,12 +474,18 @@
             $('#modalEnvio').modal('show');
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
-            var assunto = "Serra do Bené - Cancelamento de Agendamento - "+visitante.name;
-            var texto = "O seu agendamento na Serra do Bené foi CANCELADO.<br>"+
-                        "Cliente: "+visitante.name+"<br>"+
-                        "Quantidade de visitantes: "+agendamento.qtd_pessoas+"<br>"+
-                        "Preço: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
-                        "Descrição: "+agendamento.descricao;
+            var assunto = "Serra do Bené - Cancelamento Agendamento - "+visitante.name;
+            var texto = "O agendamento do dia <b>"+moment(agendamento.data_inicio).format('DD/MM/YYYY')+" até "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"</b> foi <b>cancelado</b> para o cliente com os seguintes dados:<br><br>"+
+                        "<b>Nome</b>: "+visitante.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitante.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>";
+                        if(preco == undefined){
+                            texto +="<b>Preço</b>: Não negociado.<br>";
+                        }else{
+                            texto +="<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>";
+                        }
+                texto += "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                         "<b>Observação</b>: "+agendamento.comentario;
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -494,11 +509,19 @@
 
 
             var destinatario = visitante.email;
-            var texto = "O seu agendamento na Serra do Bené foi cancelado.<br>"+
-                        "Cliente: "+visitante.name+"<br>"+
-                        "Quantidade de visitantes: "+agendamento.qtd_pessoas+"<br>"+
-                        "Preço: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>"+
-                        "Descrição: "+agendamento.descricao;
+            var texto = "Olá "+visitante.name+", seu agendamento na Serra do Bené foi <b>cancelado</b>, segue as informações detalhadas para conferir:<br><br>"+
+                        "<b>Início:</b> "+moment(agendamento.data_inicio).format('DD/MM/YYYY')+"<br>"+
+                        "<b>Término:</b> "+moment(agendamento.data_fim).format('DD/MM/YYYY')+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+agendamento.qtd_pessoas+"<br>";
+                        if(preco == undefined){
+                            texto +="<b>Preço</b>: Não negociado.<br>";
+                        }else{
+                            texto +="<b>Preço</b>: R$ "+new Intl.NumberFormat('de-DE',{ maximumFractionDigits: 2, minimumFractionDigits:2 }).format(preco.valor)+"<br>";
+                        }
+                texto += "<b>Comentário</b>: "+agendamento.descricao+"<br>"+
+                         "<b>Observação</b>: "+agendamento.comentario+"<br><br>"+
+                        "Esperamos contar com sua visita futura na Serra do Bené!";
+        
     
     
             var dadosEmail =  {
@@ -760,6 +783,7 @@
             $('#full_calendar_events').fullCalendar('destroy');
             var eventos = geraEventsCalendario(data);
             $('#full_calendar_events').fullCalendar({
+                longPressDelay: 10,
                 editable: false,
                 monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
                 monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
@@ -794,22 +818,24 @@
                     data_inicial_comp = data_inicial_comp.replace(" ","T");
                     data_final_comp = data_final_comp.replace(" ","T");
                     eventos.forEach(function(evento){
-                        if(data_inicial_comp >= evento.start && data_final_comp <= evento.end){
-                            prosseguir = 0;
-                            console.log("Não pode! data no meio de um evento");
-                            return;
-                        }else if(data_inicial_comp <= evento.start && data_final_comp >= evento.end){
-                            prosseguir = 0;
-                            console.log("Não pode! Tem evento no meio dessa data");
-                            return;
-                        }else if(data_inicial_comp <= evento.start && data_final_comp >= evento.start){
-                            prosseguir = 0;
-                            console.log("Não pode! Tem evento começando no meio dessa data");
-                            return;
-                        }else if(data_inicial_comp <= evento.end && data_final_comp >= evento.end){
-                            prosseguir = 0;
-                            console.log("Não pode! Tem evento terminando no meio dessa data");
-                            return;
+                        if(evento.dados.status == 2){
+                            if(data_inicial_comp >= evento.start && data_final_comp <= evento.end){
+                                prosseguir = 0;
+                                console.log("Não pode! data no meio de um evento");
+                                return;
+                            }else if(data_inicial_comp <= evento.start && data_final_comp >= evento.end){
+                                prosseguir = 0;
+                                console.log("Não pode! Tem evento no meio dessa data");
+                                return;
+                            }else if(data_inicial_comp <= evento.start && data_final_comp >= evento.start){
+                                prosseguir = 0;
+                                console.log("Não pode! Tem evento começando no meio dessa data");
+                                return;
+                            }else if(data_inicial_comp <= evento.end && data_final_comp >= evento.end){
+                                prosseguir = 0;
+                                console.log("Não pode! Tem evento terminando no meio dessa data");
+                                return;
+                            }
                         }
                     });
 
@@ -820,7 +846,7 @@
                         $("#dataFim").html(event_end_format);
                         $('#modalAgendamento').modal('show');
                     }else{
-                        alert("Período selecionado já possui agendamento");
+                        alert("Período selecionado já possui agendamento confirmado!");
                     }
                 },
                 eventDrop: function (event, delta) {
@@ -1152,6 +1178,12 @@
         console.log(dataFinal);
         console.log(preco);
         console.log(descricao);
+
+        if(quantidadePessoas <5){
+            alert("Mínimo de 5 pessoas!");
+            $("#quantidadePessoas").focus();
+            return("Erro: Mínimo de 5 pessoas!");
+        }
       
         
         if(pacote ==0){
@@ -1191,11 +1223,13 @@
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
             var assunto = "Cadastro de Pré Agendamento - "+visitanteDados.name;
-            if(pacote ==0){
-                var texto = "O cliente "+visitanteDados.name+" criou um Pré-Agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", para "+quantidadePessoas+" pessoas.";
-            }else{
-                var texto = "O cliente "+visitanteDados.name+" criou um Pré-Agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
-            }
+            
+            var texto = "O cliente "+visitanteDados.name+" criou um Pré-Agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue os dados detalhados:<br><br>"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao;
+            
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -1220,11 +1254,14 @@
 
             var destinatario = visitanteDados.email;
             var assunto = "Serra do Bené - Cadastro de Pré Agendamento - "+visitanteDados.name;
-            if(pacote ==0){
-                var texto = "O cliente "+visitanteDados.name+" criou um Pré-Agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", para "+quantidadePessoas+" pessoas.";
-            }else{
-                var texto = "O cliente "+visitanteDados.name+" criou um Pré-Agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
-            }
+           
+            var texto = "Olá "+visitanteDados.name+", você criou um Pré-Agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue suas informações detalhadas:"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br><br>"+
+                        "Agradecemos sua preferência pela Serra do Bené, entraremos em contato em breve.";
+           
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -1345,6 +1382,12 @@
             $("#preco").focus();
             return("Erro: Preço do Agendamento Obrigatório");
         }
+
+        if(quantidadePessoas <5){
+            alert("Mínimo de 5 pessoas!");
+            $("#quantidadePessoas").focus();
+            return("Erro: Mínimo de 5 pessoas!");
+        }
         
         if(pacote ==0){
             dadosAgendamento =  {
@@ -1383,8 +1426,15 @@
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
             var assunto = "Cadastro de Pré Agendamento - "+visitanteDados.name;
-            var texto = "O responsável "+responsavelDados.name+" criou um Pré-Agendamento para o cliente "+visitanteDados.name+" na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
+            var texto = "O responsável "+visitanteDados.name+" criou um Pré-Agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue os dados detalhados do cliente:<br><br>"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Preço</b>: R$ "+preco+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br>"+
+                        "<b>Observação</b>: "+dadosAgendamento.comentario;
     
+
             var dadosEmail =  {
                                 "destinatario":destinatario,
                                 "assunto":assunto,
@@ -1408,7 +1458,14 @@
 
             var destinatario = visitanteDados.email;
             var assunto = "Serra do Bené - Cadastro de Pré Agendamento - "+visitanteDados.name;
-            var texto = "O responsável "+responsavelDados.name+" criou um Pré-Agendamento para o cliente "+visitanteDados.name+" na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
+            var texto = "Olá "+visitanteDados.name+", seu Pré-Agendamento na Serra do Bené foi criado, segue as informações detalhadas para conferir:<br><br>"+
+                            "<b>Início:</b> "+dataInicioFormatada+"<br>"+
+                            "<b>Término:</b> "+dataInicioFormatada+"<br>"+
+                            "<b>Quantidade de visitantes:</b> "+dadosAgendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço:</b> R$ "+preco+"<br>"+
+                            "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+dadosAgendamento.comentario+"<br><br>"+
+                            "<b>Esperamos sua resposta via whastapp (31) 9652-4030 ou respondendo esse email para realizar a confirmação, caso já tenha confirmado ignore essa mensagem.</b><br>Desde já agradecemos sua preferência pela Serra do Bené!";
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -1531,6 +1588,12 @@
             $("#preco").focus();
             return("Erro: Preço do Agendamento Obrigatório");
         }
+
+        if(quantidadePessoas <5){
+            alert("Mínimo de 5 pessoas!");
+            $("#quantidadePessoasEdit").focus();
+            return("Erro: Mínimo de 5 pessoas!");
+        }
         
         if(pacote ==0){
             dadosAgendamento =  {
@@ -1572,8 +1635,14 @@
             $('#modalEnvio').modal('show');
             var destinatario = "serradobene@gmail.com";
             var assunto = "Alteração no Agendamento - "+visitanteDados.name;
-            var texto = "O responsável "+responsavelDados.name+" realizou uma alteração no agendamento para o cliente "+visitanteDados.name+" na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
-    
+            var texto = "O responsável "+visitanteDados.name+" realizou uma alteração no agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue os dados detalhados do cliente:<br><br>"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Preço</b>: R$ "+preco+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br>"+
+                        "<b>Observação</b>: "+dadosAgendamento.comentario;
+
             var dadosEmail =  {
                                 "destinatario":destinatario,
                                 "assunto":assunto,
@@ -1596,7 +1665,14 @@
 
             var destinatario = visitanteDados.email;
             var assunto = "Serra do Bené - Alteração Agendamento - "+visitanteDados.name;
-            var texto = "O responsável "+responsavelDados.name+" realizou uma alteração no agendamento para o cliente "+visitanteDados.name+" na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
+            var texto = "Olá "+visitanteDados.name+", seu agendamento na Serra do Bené foi alterado, segue as informações detalhadas para conferir:<br><br>"+
+                            "<b>Início:</b> "+dataInicioFormatada+"<br>"+
+                            "<b>Término:</b> "+dataFimFormatada+"<br>"+
+                            "<b>Quantidade de visitantes:</b> "+dadosAgendamento.qtd_pessoas+"<br>"+
+                            "<b>Preço:</b> R$ "+preco+"<br>"+
+                            "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br>"+
+                            "<b>Observação</b>: "+dadosAgendamento.comentario+"<br><br>"+
+                            "Desde já agradecemos sua preferência pela Serra do Bené!";
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -1715,6 +1791,12 @@
         console.log(dataFinal);
         console.log(preco);
         console.log(descricao);
+
+        if(quantidadePessoas <5){
+            alert("Mínimo de 5 pessoas!");
+            $("#quantidadePessoasEdit").focus();
+            return("Erro: Mínimo de 5 pessoas!");
+        }
         
         if(pacote ==0){
             dadosAgendamento =  {
@@ -1753,7 +1835,12 @@
             // console.log(url);
             var destinatario = "serradobene@gmail.com";
             var assunto = "Alteração no Agendamento - "+visitanteDados.name;
-            var texto = "O cliente "+visitanteDados.name+" alterou o agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
+            var texto = "O cliente "+visitanteDados.name+" alterou o Pré-agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue os dados detalhados:<br><br>"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao;
+            
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
@@ -1777,7 +1864,13 @@
 
             var destinatario = visitanteDados.email;
             var assunto = "Serra do Bené - Alteração Agendamento - "+visitanteDados.name;
-            var texto = "O cliente "+visitanteDados.name+" alterou o agendamento na data de "+dataInicioFormatada+" até "+dataFimFormatada+", no valor de R$ "+preco+" para "+quantidadePessoas+" pessoas.";
+            var texto = "Olá "+visitanteDados.name+", você alterou com sucesso seu Pré-agendamento na data de <b>"+dataInicioFormatada+" até "+dataFimFormatada+"</b>, segue suas informações detalhadas:"+
+                        "<b>Nome</b>: "+visitanteDados.name+"<br>"+          
+                        "<b>Telefone</b>: "+visitanteDados.telefone+"<br>"+
+                        "<b>Quantidade de visitantes</b>: "+dadosAgendamento.qtd_pessoas+"<br>"+
+                        "<b>Comentário</b>: "+dadosAgendamento.descricao+"<br><br>"+
+                        "Agradecemos sua preferência pela Serra do Bené, entraremos em contato em breve.";
+           
     
             var dadosEmail =  {
                                 "destinatario":destinatario,
